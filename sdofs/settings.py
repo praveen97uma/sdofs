@@ -1,8 +1,8 @@
 # Django settings for sdofs project.
 import os, sys
 
-PROJECT_ROOT = os.path.dirname(__name__)
-sys.path.insert(0, os.path.join(PROJECT_ROOT, 'miner'))
+PROJECT_ROOT = os.path.dirname(__file__)
+sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -106,7 +106,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'sdofs.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'sdofs.wsgi.application'
+WSGI_APPLICATION = 'wsgi.application'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -125,7 +125,7 @@ INSTALLED_APPS = (
     'social_auth',
     'fandjango',
     'facetools',
-    'sdofs.miner',
+    'miner',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -137,11 +137,19 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-FACEBOOK_APPLICATION_ID = 157126257780028
-FACEBOOK_APPLICATION_SECRET_KEY = 'c05a879d1f151790028ed064106274a8'
-FACEBOOK_APPLICATION_NAMESPACE = 'sdofs_data'
-FACEBOOK_CANVAS_PAGE = 'http://apps.facebook.com/sdofs_data'
-FACEBOOOK_CANVAS_URL = 'https://fb-mining.org/fb/'
+if DEBUG:
+    FACEBOOK_APPLICATION_ID = 410402732389914
+    FACEBOOK_APPLICATION_SECRET_KEY = 'a1bcf6114d5fd275b794011553f7dfb0'
+    FACEBOOK_APPLICATION_NAMESPACE = 'sdofs_test'
+    FACEBOOK_CANVAS_PAGE = 'http://apps.facebook.com/sdofs_test'
+    FACEBOOK_CANVAS_URL = 'http://127.0.0.1:8000/fb/'
+else:
+    FACEBOOK_APPLICATION_ID = 157126257780028
+    FACEBOOK_APPLICATION_SECRET_KEY = 'c05a879d1f151790028ed064106274a8'
+    FACEBOOK_APPLICATION_NAMESPACE = 'sdofs_data'
+    FACEBOOK_CANVAS_PAGE = 'http://apps.facebook.com/sdofs_data'
+    FACEBOOOK_CANVAS_URL = 'https://fb-mining.org/fb/'
+
 FACEBOOK_APPLICATION_INITIAL_PERMISSIONS = ['read_stream', 'user_status', 'read_insights']
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
