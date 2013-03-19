@@ -1,4 +1,8 @@
 # Django settings for sdofs project.
+import os, sys
+
+PROJECT_ROOT = os.path.dirname(__name__)
+sys.path.insert(0, os.path.join(PROJECT_ROOT, 'miner'))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -110,6 +114,7 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 )
 
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -120,6 +125,7 @@ INSTALLED_APPS = (
     'social_auth',
     'fandjango',
     'facetools',
+    'sdofs.miner',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -136,7 +142,7 @@ FACEBOOK_APPLICATION_SECRET_KEY = 'c05a879d1f151790028ed064106274a8'
 FACEBOOK_APPLICATION_NAMESPACE = 'sdofs_data'
 FACEBOOK_CANVAS_PAGE = 'http://apps.facebook.com/sdofs_data'
 FACEBOOOK_CANVAS_URL = 'https://fb-mining.org/fb/'
-
+FACEBOOK_APPLICATION_INITIAL_PERMISSIONS = ['read_stream', 'user_status', 'read_insights']
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.

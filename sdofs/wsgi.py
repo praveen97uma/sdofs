@@ -15,6 +15,7 @@ framework.
 """
 import os, sys
 sys.path.append('/home/ubuntu/sdofs')
+sys.path.append('home/ubuntu/sdofs/sdofs')
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "sdofs.settings")
 
