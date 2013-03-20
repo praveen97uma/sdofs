@@ -1,12 +1,30 @@
 from django.http import HttpResponse
+from django.shortcuts import render
+
 from fandjango.decorators import facebook_authorization_required as fb_authorize
+from fandjango.models import User
+
 import json
 
 from miner.models import Post, Comment
 
+
+def userAlreadySuppliedInfo(user):
+    try:
+        User.objects.get(facebook_id=user.facebook_id)
+    except Exception:
+        return False
+    return True
+
+def playGame(request):
+    return render(request, 'miner/test.html')
+
 @fb_authorize
 def miner(request):
     current_user = request.facebook.user
+    if userAlreadySuppliedInfo(current_user):
+        return playGame(request)
+
     graph = current_user.graph
     # extend the expiry of the access token that the user has granted
     #current_user.oauth_token.extend()
@@ -39,7 +57,7 @@ def miner(request):
                 }
                 comment_entity = Comment(**comment_data)
                 comment_entity.save()
-    response = ""
-    return HttpResponse(response)
+    
+    return playGame(request)
 
 
