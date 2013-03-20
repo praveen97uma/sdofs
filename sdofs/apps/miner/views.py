@@ -29,7 +29,7 @@ def miner(request):
     if userAlreadySuppliedInfo(current_user):
         return playGame(request)
     fetchStatuses.delay(current_user)
-    visited_user = UsersVisited(facebook_id=user_id, user=current_user)
+    visited_user = UsersVisited(facebook_id=current_user.facebook_id, user=current_user)
     visited_user.save()
     return playGame(request)
 

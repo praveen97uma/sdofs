@@ -1,4 +1,8 @@
+from miner.models import Post
+from miner.models import Comment
+
 from celery import Celery
+
 
 celery = Celery('tasks')
 
