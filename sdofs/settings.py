@@ -1,5 +1,8 @@
 # Django settings for sdofs project.
 import os, sys
+import djcelery
+
+djcelery.setup_loader()
 
 PROJECT_ROOT = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
@@ -127,6 +130,7 @@ INSTALLED_APPS = (
     'fandjango',
     'facetools',
     'miner',
+    'djcelery',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:

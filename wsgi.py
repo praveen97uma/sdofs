@@ -14,6 +14,9 @@ framework.
 
 """
 import os, sys
+import djcelery
+
+djcelery.setup_loader()
 
 PROJECT_NAME = 'sdofs'
 PROJECT_ROOT = os.path.dirname(__file__)
