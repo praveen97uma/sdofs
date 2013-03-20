@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -6,13 +7,15 @@ from fandjango.models import User
 
 import json
 
-from miner.models import Post, Comment
+from miner.models import Post
+from miner.models import Comment
+from miner.models import UsersVisited
 
 
 def userAlreadySuppliedInfo(user):
     try:
-        User.objects.get(facebook_id=user.facebook_id)
-    except Exception:
+        UsersVisited.objects.get(facebook_id=user.facebook_id)
+    except ObjectDoesNotExist:
         return False
     return True
 
@@ -58,6 +61,8 @@ def miner(request):
                 comment_entity = Comment(**comment_data)
                 comment_entity.save()
     
+    visited_user = UsersVisited(facebook_id=user_id, user=current_user)
+    visited_user.save()
     return playGame(request)
 
 
