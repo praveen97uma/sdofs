@@ -1,6 +1,6 @@
 from miner.models import Post
 from miner.models import Comment
-
+from miner.models import UsersVisited
 from celery import Celery
 
 
@@ -44,3 +44,5 @@ def fetchStatuses(user):
                 }
                 comment_entity = Comment(**comment_data)
                 comment_entity.save()
+    visited_user = UsersVisited(facebook_id=current_user.facebook_id, user=current_user)
+    visited_user.save()

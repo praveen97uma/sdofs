@@ -26,11 +26,8 @@ def playGame(request):
 @fb_authorize
 def miner(request):
     current_user = request.facebook.user
-    if userAlreadySuppliedInfo(current_user):
-        return playGame(request)
-    fetchStatuses.delay(current_user)
-    visited_user = UsersVisited(facebook_id=current_user.facebook_id, user=current_user)
-    visited_user.save()
+    if not userAlreadySuppliedInfo(current_user):
+        fetchStatuses.delay(current_user)
     return playGame(request)
 
 
