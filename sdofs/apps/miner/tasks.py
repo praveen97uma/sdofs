@@ -1,13 +1,16 @@
-from miner.models import Post
-from miner.models import Comment
-from miner.models import UsersVisited
+from sdofs.apps.miner.models import Post
+from sdofs.apps.miner.models import Comment
+from sdofs.apps.miner.models import UsersVisited
 from celery import Celery
+from celery.decorators import task
+
+import logging
 
 
-celery = Celery('tasks')
+#celery = Celery('tasks')
 
 
-@celery.task()
+@task()
 def fetchStatuses(user):
     graph = user.graph
     # extend the expiry of the access token that the user has granted
@@ -24,12 +27,15 @@ def fetchStatuses(user):
         
         status_data = {
             'post_id': status['id'],
-            'message': status['message'],
+            'message': status.get('message', 'None'),
             'like_count': like_count,
             'user_id': user_id,
         }
-        post = Post(**status_data)
-        post.save()
+        try:
+	    post = Post(**status_data)
+            post.save()
+	except Exception:
+	   continue
         
         if status.has_key('comments'):
             all_comments = status.get('comments', []).get('data', [])
@@ -42,7 +48,11 @@ def fetchStatuses(user):
                     'like_count': comment.get('like_count', 0),
                     'post': post,
                 }
-                comment_entity = Comment(**comment_data)
-                comment_entity.save()
-    visited_user = UsersVisited(facebook_id=current_user.facebook_id, user=current_user)
+		try:
+                    comment_entity = Comment(**comment_data)
+                    comment_entity.save()
+		except Exception:
+		    pass
+    visited_user = UsersVisited(facebook_id=user.facebook_id, user=user)
     visited_user.save()
+    logging.info("Data of %s saved successfully"%(user.first_name))
