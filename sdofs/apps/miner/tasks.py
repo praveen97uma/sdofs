@@ -13,6 +13,7 @@ import logging
 @task()
 def fetchStatuses(user):
     graph = user.graph
+    logging.info("Started processing data of %s"%(user.first_name))
     # extend the expiry of the access token that the user has granted
     #current_user.oauth_token.extend()
     user_id = user.facebook_id
@@ -35,15 +36,16 @@ def fetchStatuses(user):
 	    post = Post(**status_data)
             post.save()
 	except Exception:
+	   logging.info("Failed to save a Status of %s"%(user.first_name))
 	   continue
         
         if status.has_key('comments'):
-            all_comments = status.get('comments', []).get('data', [])
+            all_comments = status.get('comments', {}).get('data', [])
             for comment in all_comments:
                 comment_data = {
                     'comment_id': comment.get('id', '0'),
-                    'user_id': (comment.get('from')).get('id', '0'),
-                    'message': comment.get('message', None),
+                    'user_id': (comment.get('from', {})).get('id', '0'),
+                    'message': comment.get('message', 'None'),
                     'user_likes': int(comment.get('user_likes') == 'true'),
                     'like_count': comment.get('like_count', 0),
                     'post': post,
@@ -52,6 +54,7 @@ def fetchStatuses(user):
                     comment_entity = Comment(**comment_data)
                     comment_entity.save()
 		except Exception:
+		    logging.info("Failed to save a comment of %s"%(user.first_name))
 		    pass
     visited_user = UsersVisited(facebook_id=user.facebook_id, user=user)
     visited_user.save()
