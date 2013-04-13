@@ -126,13 +126,12 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'social_auth',
     'fandjango',
     'facetools',
     'miner',
     'djcelery',
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
@@ -142,7 +141,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-if DEBUG:
+if not DEBUG:
     FACEBOOK_APPLICATION_ID = 410402732389914
     FACEBOOK_APPLICATION_SECRET_KEY = 'a1bcf6114d5fd275b794011553f7dfb0'
     FACEBOOK_APPLICATION_NAMESPACE = 'sdofs_test'
@@ -151,8 +150,8 @@ if DEBUG:
 else:
     FACEBOOK_APPLICATION_ID = 157126257780028
     FACEBOOK_APPLICATION_SECRET_KEY = 'c05a879d1f151790028ed064106274a8'
-    FACEBOOK_APPLICATION_NAMESPACE = 'sdofs_data'
-    FACEBOOK_CANVAS_PAGE = 'http://apps.facebook.com/sdofs_data'
+    FACEBOOK_APPLICATION_NAMESPACE = 'hunt_bunny'
+    FACEBOOK_CANVAS_PAGE = 'http://apps.facebook.com/hunt_bunny'
     FACEBOOOK_CANVAS_URL = 'https://fb-mining.org/fb/'
 
 FACEBOOK_APPLICATION_INITIAL_PERMISSIONS = ['read_stream', 'user_status']
